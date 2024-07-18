@@ -3,7 +3,7 @@ from streamlit_webrtc import webrtc_streamer, VideoProcessorBase,WebRtcMode
 import cv2
 import face_recognition as frg
 import yaml 
-from utils import recognize, build_dataset, get_ice_servers
+from utils import recognize, build_dataset
 import av
 # Path: code\app.py
 
@@ -60,10 +60,10 @@ elif choice == "Webcam":
     webrtc_ctx = webrtc_streamer(
     key="object-detection",
     # mode=WebRtcMode.SENDRECV,
-    # rtc_configuration={
-    #     "iceServers": get_ice_servers(),
-    #     "iceTransportPolicy": "relay",
-    # },
+    rtc_configuration={
+        "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}],
+        "iceTransportPolicy": "relay",
+    },
     video_frame_callback=video_frame_callback,
     media_stream_constraints={"video": True, "audio": False},
     async_processing=True,
