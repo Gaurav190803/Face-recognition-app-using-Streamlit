@@ -1,9 +1,10 @@
-opencv-python
+opencv-python-headless==4.8.1.78
 cmake
 pyyaml
-streamlit
-streamlit-webrtc
+streamlit_webrtc~=0.47.7
 #Fork of face_recognition using prebuild dlib library instead
 face_recognition @ git+https://github.com/thetoby9944/face_recognition
 numpy==1.25.1
+pydub==0.25.1
+twilio~=8.10.1
 
