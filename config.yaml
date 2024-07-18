@@ -5,4 +5,4 @@ PATH:
 
 INFO:
   PICTURE_PROMPT: 'This app recognizes faces in a live video stream. To use it, simply press start and allow access to your webcam.'
-  WEBCAM_PROMPT: 'This app recognizes faces in a live video stream. To use it, simply press start and allow access to your webcam.'
+  WEBCAM_PROMPT: 'This app recognizes faces in a live video stream. To use it, simply press start and allow access to your webcam.\n It might take a few seconds to start the webcam ITC service.'
