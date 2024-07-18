@@ -10,8 +10,7 @@ import av
 def video_frame_callback(frame):
     img = frame.to_ndarray(format="bgr24")
     image, name, id = recognize(img,TOLERANCE)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    return av.VideoFrame.from_ndarray(image,format='rgb24')
+    return av.VideoFrame.from_ndarray(image,format='bgr24')
 
 
 st.set_page_config(layout="wide")
@@ -59,14 +58,13 @@ elif choice == "Webcam":
     st.write(WEBCAM_PROMPT)
     webrtc_ctx = webrtc_streamer(
     key="object-detection",
-    # mode=WebRtcMode.SENDRECV,
+    mode=WebRtcMode.SENDRECV,
     rtc_configuration={
         "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}],
         "iceTransportPolicy": "relay",
     },
     video_frame_callback=video_frame_callback,
     media_stream_constraints={"video": True, "audio": False},
-    async_processing=True,
 )
  
 # elif choice == "Webcam":
