@@ -9,8 +9,8 @@ import av
 
 def video_frame_callback(frame):
     img = frame.to_ndarray(format="bgr24")
-    image, name, id = recognize(img,TOLERANCE)
-    return av.VideoFrame.from_ndarray(image,format='bgr24')
+    # image, name, id = recognize(img,TOLERANCE)
+    return av.VideoFrame.from_ndarray(img,format='bgr24')
 
 
 st.set_page_config(layout="wide")
