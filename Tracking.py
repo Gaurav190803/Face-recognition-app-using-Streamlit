@@ -57,8 +57,6 @@ if choice == "Picture":
 elif choice == "Webcam":
     st.title("Face Recognition App")
     st.write(WEBCAM_PROMPT)
-
-    webrtc_ctx = webrtc_streamer(key="example",video_frame_callback=video_frame_callback)
     webrtc_ctx = webrtc_streamer(
     key="object-detection",
     mode=WebRtcMode.SENDRECV,
