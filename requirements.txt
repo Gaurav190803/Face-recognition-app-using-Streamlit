@@ -6,4 +6,5 @@ streamlit-webrtc
 #Fork of face_recognition using prebuild dlib library instead
 face_recognition @ git+https://github.com/thetoby9944/face_recognition
 numpy==1.25.1
+twilio~=8.10.1
 

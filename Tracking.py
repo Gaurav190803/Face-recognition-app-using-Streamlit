@@ -1,9 +1,9 @@
 import streamlit as st
-from streamlit_webrtc import webrtc_streamer, VideoProcessorBase
+from streamlit_webrtc import webrtc_streamer, VideoProcessorBase,WebRtcMode
 import cv2
 import face_recognition as frg
 import yaml 
-from utils import recognize, build_dataset
+from utils import recognize, build_dataset, get_ice_servers
 import av
 # Path: code\app.py
 
@@ -59,6 +59,17 @@ elif choice == "Webcam":
     st.write(WEBCAM_PROMPT)
 
     webrtc_ctx = webrtc_streamer(key="example",video_frame_callback=video_frame_callback)
+    webrtc_ctx = webrtc_streamer(
+    key="object-detection",
+    mode=WebRtcMode.SENDRECV,
+    rtc_configuration={
+        "iceServers": get_ice_servers(),
+        "iceTransportPolicy": "relay",
+    },
+    video_frame_callback=video_frame_callback,
+    media_stream_constraints={"video": True, "audio": False},
+    async_processing=True,
+)
  
 # elif choice == "Webcam":
 #     st.title("Face Recognition App")

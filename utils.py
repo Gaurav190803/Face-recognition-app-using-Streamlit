@@ -5,6 +5,9 @@ import cv2
 import numpy as np
 import yaml
 from collections import defaultdict
+import streamlit as st
+from twilio.base.exceptions import TwilioRestException
+from twilio.rest import Client
 
 information = defaultdict(dict)
 cfg = yaml.load(open('config.yaml','r'),Loader=yaml.FullLoader)
@@ -109,6 +112,34 @@ def build_dataset():
     with open(os.path.join(DATASET_DIR,'database.pkl'),'wb') as f:
         pkl.dump(information,f)
 
-if __name__ == "__main__": 
-    deleteOne(4)
+
+
+
+
+def get_ice_servers():
+    """Use Twilio's TURN server because Streamlit Community Cloud has changed
+    its infrastructure and WebRTC connection cannot be established without TURN server now.  # noqa: E501
+    We considered Open Relay Project (https://www.metered.ca/tools/openrelay/) too,
+    but it is not stable and hardly works as some people reported like https://github.com/aiortc/aiortc/issues/832#issuecomment-1482420656  # noqa: E501
+    See https://github.com/whitphx/streamlit-webrtc/issues/1213
+    """
+
+    # Ref: https://www.twilio.com/docs/stun-turn/api
+    try:
+        account_sid = os.environ["TWILIO_ACCOUNT_SID"]
+        auth_token = os.environ["TWILIO_AUTH_TOKEN"]
+    except KeyError:
+        return [{"urls": ["stun:stun.l.google.com:19302"]}]
+
+    client = Client(account_sid, auth_token)
+
+    try:
+        token = client.tokens.create()
+    except TwilioRestException as e:
+        st.warning(
+            f"Error occurred while accessing Twilio API. Fallback to a free STUN server from Google. ({e})"  # noqa: E501
+        )
+        return [{"urls": ["stun:stun.l.google.com:19302"]}]
+
+    return token.ice_servers
 
